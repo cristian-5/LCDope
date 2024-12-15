@@ -3,9 +3,9 @@
 
 LCD Display Widget for macOS that runs **your** JavaScript code.
 
-![screen_1](screen_1.png)
+![screen-1](screen-1.png)
 
-![screen_2](screen_2.png)
+![screen-2](screen-2.png)
 
 ## API Usage
 
