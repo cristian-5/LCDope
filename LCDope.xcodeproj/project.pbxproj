@@ -6,11 +6,64 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		40AA7FF42D0AF616005DA434 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40AA7FF32D0AF616005DA434 /* WidgetKit.framework */; };
+		40AA7FF62D0AF616005DA434 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40AA7FF52D0AF616005DA434 /* SwiftUI.framework */; };
+		40AA80042D0AF618005DA434 /* DisplayExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 40AA7FF12D0AF616005DA434 /* DisplayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		40AD2A0A2CE650BD00A2C817 /* SwiftyMonaco in Frameworks */ = {isa = PBXBuildFile; productRef = 40AD2A092CE650BD00A2C817 /* SwiftyMonaco */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		40AA80022D0AF618005DA434 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 40AD29EA2CE64F2900A2C817 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 40AA7FF02D0AF616005DA434;
+			remoteInfo = DisplayExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		40AA80052D0AF618005DA434 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				40AA80042D0AF618005DA434 /* DisplayExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		40AA7FF12D0AF616005DA434 /* DisplayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DisplayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		40AA7FF32D0AF616005DA434 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		40AA7FF52D0AF616005DA434 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		40AD29F22CE64F2900A2C817 /* LCDope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LCDope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		402B1F192D0F17A3005CF17D /* Exceptions for "LCDope" folder in "DisplayExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Driver/Driver.swift,
+				Driver/JavaScript/JSBridge.js,
+				Driver/JavaScript/JSBridge.swift,
+				Driver/JavaScript/JSFetch.swift,
+				Driver/JavaScript/JSStorage.swift,
+				Extensions.swift,
+			);
+			target = 40AA7FF02D0AF616005DA434 /* DisplayExtension */;
+		};
+		40AA80092D0AF618005DA434 /* Exceptions for "Display" folder in "DisplayExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 40AA7FF02D0AF616005DA434 /* DisplayExtension */;
+		};
 		40AD2A022CE64F2B00A2C817 /* Exceptions for "LCDope" folder in "LCDope" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -21,10 +74,19 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		40AA7FF72D0AF616005DA434 /* Display */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				40AA80092D0AF618005DA434 /* Exceptions for "Display" folder in "DisplayExtension" target */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
 		40AD29F42CE64F2900A2C817 /* LCDope */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				40AD2A022CE64F2B00A2C817 /* Exceptions for "LCDope" folder in "LCDope" target */,
+				402B1F192D0F17A3005CF17D /* Exceptions for "LCDope" folder in "DisplayExtension" target */,
 			);
 			path = LCDope;
 			sourceTree = "<group>";
@@ -32,20 +94,41 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		40AA7FEE2D0AF616005DA434 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40AA7FF62D0AF616005DA434 /* SwiftUI.framework in Frameworks */,
+				40AA7FF42D0AF616005DA434 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		40AD29EF2CE64F2900A2C817 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40AD2A0A2CE650BD00A2C817 /* SwiftyMonaco in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		40AA7FF22D0AF616005DA434 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				40AA7FF32D0AF616005DA434 /* WidgetKit.framework */,
+				40AA7FF52D0AF616005DA434 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		40AD29E92CE64F2900A2C817 = {
 			isa = PBXGroup;
 			children = (
 				40AD29F42CE64F2900A2C817 /* LCDope */,
+				40AA7FF72D0AF616005DA434 /* Display */,
+				40AA7FF22D0AF616005DA434 /* Frameworks */,
 				40AD29F32CE64F2900A2C817 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				40AD29F22CE64F2900A2C817 /* LCDope.app */,
+				40AA7FF12D0AF616005DA434 /* DisplayExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +145,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		40AA7FF02D0AF616005DA434 /* DisplayExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 40AA80082D0AF618005DA434 /* Build configuration list for PBXNativeTarget "DisplayExtension" */;
+			buildPhases = (
+				40AA7FED2D0AF616005DA434 /* Sources */,
+				40AA7FEE2D0AF616005DA434 /* Frameworks */,
+				40AA7FEF2D0AF616005DA434 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				40AA7FF72D0AF616005DA434 /* Display */,
+			);
+			name = DisplayExtension;
+			packageProductDependencies = (
+			);
+			productName = DisplayExtension;
+			productReference = 40AA7FF12D0AF616005DA434 /* DisplayExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		40AD29F12CE64F2900A2C817 /* LCDope */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 40AD2A032CE64F2B00A2C817 /* Build configuration list for PBXNativeTarget "LCDope" */;
@@ -68,16 +174,19 @@
 				40AD29EE2CE64F2900A2C817 /* Sources */,
 				40AD29EF2CE64F2900A2C817 /* Frameworks */,
 				40AD29F02CE64F2900A2C817 /* Resources */,
+				40AA80052D0AF618005DA434 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				40AA80032D0AF618005DA434 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				40AD29F42CE64F2900A2C817 /* LCDope */,
 			);
 			name = LCDope;
 			packageProductDependencies = (
+				40AD2A092CE650BD00A2C817 /* SwiftyMonaco */,
 			);
 			productName = LCDope;
 			productReference = 40AD29F22CE64F2900A2C817 /* LCDope.app */;
@@ -90,9 +199,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1610;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					40AA7FF02D0AF616005DA434 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					40AD29F12CE64F2900A2C817 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -107,17 +219,28 @@
 			);
 			mainGroup = 40AD29E92CE64F2900A2C817;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				40AD2A082CE650BD00A2C817 /* XCRemoteSwiftPackageReference "SwiftyMonaco" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 40AD29F32CE64F2900A2C817 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				40AD29F12CE64F2900A2C817 /* LCDope */,
+				40AA7FF02D0AF616005DA434 /* DisplayExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		40AA7FEF2D0AF616005DA434 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		40AD29F02CE64F2900A2C817 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +251,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		40AA7FED2D0AF616005DA434 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		40AD29EE2CE64F2900A2C817 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +267,75 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		40AA80032D0AF618005DA434 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 40AA7FF02D0AF616005DA434 /* DisplayExtension */;
+			targetProxy = 40AA80022D0AF618005DA434 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		40AA80062D0AF618005DA434 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = Bezel;
+				CODE_SIGN_ENTITLEMENTS = Display/Display.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = ZHZ9ZEQ8FQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Display/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Display;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cristian.a.LCDope.Display;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		40AA80072D0AF618005DA434 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = Bezel;
+				CODE_SIGN_ENTITLEMENTS = Display/Display.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = ZHZ9ZEQ8FQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Display/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Display;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cristian.a.LCDope.Display;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		40AD2A042CE64F2B00A2C817 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -147,7 +345,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LCDope/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = ZHZ9ZEQ8FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -161,6 +360,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = cristian.a.LCDope;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG TARGET_LOGS";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -175,7 +375,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LCDope/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = ZHZ9ZEQ8FQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -189,6 +390,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = cristian.a.LCDope;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TARGET_LOGS;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -228,6 +430,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -291,6 +494,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -315,6 +519,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		40AA80082D0AF618005DA434 /* Build configuration list for PBXNativeTarget "DisplayExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40AA80062D0AF618005DA434 /* Debug */,
+				40AA80072D0AF618005DA434 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		40AD29ED2CE64F2900A2C817 /* Build configuration list for PBXProject "LCDope" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -334,6 +547,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		40AD2A082CE650BD00A2C817 /* XCRemoteSwiftPackageReference "SwiftyMonaco" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ICToolkit/SwiftyMonaco";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		40AD2A092CE650BD00A2C817 /* SwiftyMonaco */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40AD2A082CE650BD00A2C817 /* XCRemoteSwiftPackageReference "SwiftyMonaco" */;
+			productName = SwiftyMonaco;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 40AD29EA2CE64F2900A2C817 /* Project object */;
 }

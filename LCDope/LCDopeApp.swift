@@ -1,17 +1,15 @@
-//
-//  LCDopeApp.swift
-//  LCDope
-//
-//  Created by Cristian on 14/11/24.
-//
 
 import SwiftUI
 
 @main
 struct LCDopeApp: App {
     var body: some Scene {
-        DocumentGroup(newDocument: LCDopeDocument()) { file in
-            ContentView(document: file.$document)
-        }
+        DocumentGroup(newDocument: LCDocument()) { file in
+			MainView(document: file.$document).onAppear {
+				if let window = NSApplication.shared.windows.first {
+					window.center()
+				}
+			}
+		}
     }
 }
