@@ -68,6 +68,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				ModernBasic/PixelBasic.ebnf,
 			);
 			target = 40AD29F12CE64F2900A2C817 /* LCDope */;
 		};
