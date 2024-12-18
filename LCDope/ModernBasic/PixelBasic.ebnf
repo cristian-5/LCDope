@@ -1,0 +1,54 @@
+
+program = {(function | declaration) EOL} EOF;
+
+function = type identifier "(" [parameters] ")" ":" EOL [statements] "end";
+
+basic = "natural" | "integer" | "real" | "string" | "void";
+type = basic | '[' basic ']' | '{' basic {":" basic} '}';
+
+identifier = /[a-zA-Z_][a-zA-Z0-9_]*/;
+
+statements = {statement};
+statement = (declaration | expression | if | cycle | return | break | continue) EOL;
+
+declaration = type identifier [":=" expression] {"," identifier ["=" expression]};
+
+expression = assignment | short_or; (* ll(2) because you look ahead for ":=" *)
+assignment = identifier {":=" short_or};
+short_or = short_and {"\\/" short_and};
+short_and = equality {"/\\" equality};
+equality = relational {("=" | "<>") relational};
+relational = additive {("<" | "<=" | ">" | ">=") additive};
+additive = multiplicative {("+" | "-") multiplicative};
+multiplicative = unary {("*" | "/" | "%", "^") unary};
+unary = ["+" | "-" | "~"] unary | primary;
+primary = identifier | constant | "(" expression ")";
+constant = integer | real | string | boolean;
+integer = /[0-9]+/ | ("#" [0-9a-fA-F]+) | /'.'/;
+real = /[0-9]+\.[0-9]+/;
+string = /".*"/;
+boolean = "true" | "false";
+
+
+if = "if" expression ":" EOL [statements] ["else" ["if" expression] ":" EOL [statements]] "end";
+cycle = repeat | loop | ("while" | "until") expression ":" EOL [statements] "end";
+repeat = "repeat" ":" EOL [statements] "until" expression;
+loop = "loop" ":" EOL [statements] "end";
+return = "return" [expression];
+break = "break";
+continue = "continue";
+
+(*
+
+void hello(real x, [integer] y):
+	integer z := 0
+	z := x + y
+	return x + y
+	if x = y:
+		return x
+	else:
+		return
+	end
+end
+
+*)
