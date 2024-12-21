@@ -50,15 +50,15 @@ struct MainView: View {
 	
 	private func PixelCanvas(with size: (w: Int, h: Int)) -> some View {
 		let pixel = 3, space = 1, box = pixel + space
-		let padding = (x: 16, y: 16)
+		let padding = (x: 40, y: 40)
 		let fw = CGFloat(size.w * box + space)
 		let fh = CGFloat(size.h * box + space)
 		let data = frame == nil ? PlaceHolder(for: size).data : frame!.data
 		let back: Color = frame == nil ? .black : Color(rgb: frame!.back)
 		return ZStack {
-			RoundedRectangle(cornerRadius: 11).fill(.bezel).frame(
+			RoundedRectangle(cornerRadius: 20).fill(back).frame(
 				width: fw + CGFloat(padding.x), height: fh + CGFloat(padding.y)
-			)
+			).shadow(color: Color.black.opacity(0.25), radius: 10, x: 0, y: 0)
 			Canvas { context, cgsize in
 				let rect = CGRect(origin: CGPoint.zero, size: cgsize)
 				context.fill(Path(rect), with: .color(back))
@@ -72,7 +72,6 @@ struct MainView: View {
 				}
 			}
 			.frame(width: fw, height: fh)
-			.clipShape(RoundedRectangle(cornerRadius: 4))
 		}
 	}
 	

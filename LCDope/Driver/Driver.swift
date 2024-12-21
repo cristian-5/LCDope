@@ -16,6 +16,7 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
 	Logger.clear() // clear old logs before new stuff
 #endif
 	var lcd = Matrix(m: size.w, n: size.h, UInt32(0))
+	var touched = Matrix(m: size.w, n: size.h, false)
 	let context = JSContext()! // ostrich algorithm
 	JSBridge.provide(to: context)
 	var backlight: UInt32 = 0x000000
@@ -23,15 +24,20 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
 	let _pixel: @convention(block) (Int, Int, JSValue) -> Void = { x, y, color in
 		if x < 0 || x >= size.w || y < 0 || y >= size.h { return }
 		lcd[Int(y)][Int(x)] = color.toColor()
+		touched[Int(y)][Int(x)] = true
 	}
 	let _fill: @convention(block) (JSValue) -> Void = { color in
 		lcd = Matrix(m: size.w, n: size.h, color.toColor())
+	}
+	let _clear: @convention(block) () -> Void = {
+		touched = Matrix(m: size.w, n: size.h, false)
 	}
 	JSFetch.provide(to: context)
 	JSStorage.loadLocalStorage(to: context, url: name)
 	context.setObject(_back,  for: "backlight")
 	context.setObject(_pixel, for: "pixel")
 	context.setObject(_fill,  for: "fill")
+	context.setObject(_clear, for: "clear")
 	context.setObject(size.w, for: "WIDTH")
 	context.setObject(size.h, for: "HEIGHT")
 	context.setObject(date,   for: "DATE")
@@ -42,6 +48,11 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
         })();
     """) // allow top-level await
 	JSStorage.storeLocalStorage(from: context, url: name)
+	for i in 0 ..< size.h {
+		for j in 0 ..< size.w {
+			if !touched[i][j] { lcd[i][j] = backlight }
+		}
+	}
 #if TARGET_LOGS
 	return Frame(data: lcd, back: backlight, logs: Logger.retreive())
 #else

@@ -9,7 +9,7 @@ struct DisplayIntent: WidgetConfigurationIntent {
 	@Parameter(title: "Interval", defaultValue: 5, defaultUnit: .minutes, supportsNegativeNumbers: false)
 	var interval: Measurement<UnitDuration>
 	
-	@Parameter(title: "Program Driver", supportedContentTypes: [ .javaScript ])
+	@Parameter(title: "JS Driver", supportedContentTypes: [ .javaScript ])
 	var driver: IntentFile?
 	var type: String? { driver?.fileURL?.pathExtension }
 	func file() -> String? {
@@ -21,5 +21,5 @@ struct DisplayIntent: WidgetConfigurationIntent {
 			return String(data: data, encoding: .utf8)
 		} catch { return nil }
 	}
-
+	
 }
