@@ -179,6 +179,92 @@ class LocalStorage {
 
 const localStorage = new LocalStorage();
 
+class Display {
+	
+	static _CRC32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+	static _FONT_5x7 = [
+		 "0000000", // space
+		 // ! " # $ % & ' ( ) * + , - . /
+		 "4444404", "0AA0000", "00AZAZA", "Y55EMMF", "3K842SR",
+		 "699P99P", "4400000", "8444448", "4888884", "A4A0000",
+		 "0004E40", "0000042", "0000E00", "0000004", "01248G0",
+		 // digits
+		 "EHSNKHE", "464444E", "EHGC21Z", "EHGCGHE", "RMJHZGG",
+		 "Z1FGGHE", "EH1FHHE", "ZG84222", "EHHEHHE", "EHHYGHE",
+		 // : ; < = > ? @
+		 "0004040", "0004044", "0084248", "000E0E0", "0024842", "EHG8404", "EHSNS1Y",
+		 // A-Z
+		 "YHHZHHH", "FHHFHHF", "EH111HE", "FHHHHHF", "Z11F11Z",
+		 "Z11F111", "EH11SHE", "HHHZHHH", "E44444E", "RGGGHHE",
+		 "H95359H", "111111Z", "HVNHHHH", "HHKNSHH", "EHHHHHE",
+		 "FHHF111", "EHHHN9P", "FHHFHHH", "EH1EGHE", "Z444444",
+		 "HHHHHHE", "HHHHHA4", "HHHHNNA", "HHA4AHH", "HHA4444", "ZG8421Z",
+		 // [ \ ] ^ _ `
+		 "E22222E", "0G84210", "E88888E", "04AH000", "000000E", "4800000",
+		 // a-z
+		 "00CGYJW", "222EJJE", "00CJ2JC", "GGGWJJW", "00CJY2W",
+		 "0C2E221", "00CJWGE", "222EJJJ", "0404444", "0808884",
+		 "2JA6AJJ", "4444448", "00FNNNN", "00WJJJJ", "00CJJJC",
+		 "00CJE22", "00CJWGG", "00T6222", "00W2CGE", "044Y44R",
+		 "00JJJJW", "00HHHA4", "00HHHNA", "00JJCJJ", "00JJWGC", "00YGC2Y",
+		 // { | } ~ ♥︎
+		 "C22122C", "4444444", "688G886", "0002N80", "ZZZZZZZ", "0AZZE40"
+	 ];
+	 static _FONT_W = 5;
+	 static _FONT_H = 7;
+	 
+	 backlight(color = 0x000000) {
+		 if (!["string", "number"].includes(typeof color)) color = 0x000000;
+		 __lcd_backlight(color);
+	 }
+	 pixel(x, y, color = 0xFFFFFF) { __lcd_pixel(x, y, color); }
+	 clear(x, y) { __lcd_clear(); }
+	 fill(color = 0xFFFFFF) { __lcd_fill(color); }
+	 
+	 get width() { return __LCD_WIDTH; }
+	 get height() { return __LCD_HEIGHT; }
+	 get size() { return [__LCD_WIDTH, __LCD_HEIGHT]; }
+	 
+	 _char_5x7(code, x, y, color) {
+		 const B = Display._FONT_5x7[code - 32] || "";
+		 if (typeof color === "function") {
+			 for (let i = 0; i < B.length; i++)
+				 for (let j = 0, t = Display._CRC32.indexOf(B[i]); j < 5; j++, t >>= 1) {
+					 const X = x + j, Y = y + i;
+					 if (t & 1) __lcd_pixel(X, Y, color(X, Y));
+				 }
+		 } else {
+			 for (let i = 0; i < B.length; i++)
+				 for (let j = 0, t = Display._CRC32.indexOf(B[i]); j < 5; j++, t >>= 1)
+					if (t & 1) __lcd_pixel(x + j, y + i, color);
+		 }
+	 }
+	 
+	 character(c, x = 0, y = 0, color = 0xFFFFFF) {
+		 this._char_5x7(c.charCodeAt(0), x, y, color);
+	 }
+	 
+	 print(message, x = 0, y = 0, color = 0xFFFFFF) {
+		 if (typeof message !== "string") message = `${message}`;
+		 for (let i = 0, r = 0, c = 0; i < message.length; i++) {
+			 const code = message.charCodeAt(i);
+			 const X = x + c * 6, Y = y + r * 8;
+			 const wrap = X + Display._FONT_W > __LCD_WIDTH;
+			 if (wrap || code === 13 || code === 10) {
+				 r++;
+				 c = 0;
+				 if (wrap && code > 32) i--; // re-print VALID letter on next line
+				 continue;
+			 }
+			 this._char_5x7(code, X, Y, color);
+			 c++;
+		 }
+	 }
+
+}
+
+const display = new Display();
+
 console.log   = (...M) =>   __log(M.map(m => `${m || "undefined"}`).join(' '));
 console.error = (...M) => __error(M.map(m => `${m || "undefined"}`).join(' '));
 console.warn  = (...M) =>  __warn(M.map(m => `${m || "undefined"}`).join(' '));

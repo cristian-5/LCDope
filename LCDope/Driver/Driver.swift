@@ -34,13 +34,13 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
 	}
 	JSFetch.provide(to: context)
 	JSStorage.loadLocalStorage(to: context, url: name)
-	context.setObject(_back,  for: "backlight")
-	context.setObject(_pixel, for: "pixel")
-	context.setObject(_fill,  for: "fill")
-	context.setObject(_clear, for: "clear")
-	context.setObject(size.w, for: "WIDTH")
-	context.setObject(size.h, for: "HEIGHT")
-	context.setObject(date,   for: "DATE")
+	context.setObject(_back,  for: "__lcd_backlight")
+	context.setObject(_pixel, for: "__lcd_pixel")
+	context.setObject(_fill,  for: "__lcd_fill")
+	context.setObject(_clear, for: "__lcd_clear")
+	context.setObject(size.w, for: "__LCD_WIDTH")
+	context.setObject(size.h, for: "__LCD_HEIGHT")
+	context.setObject(date,   for: "__DATE")
 	context.evaluateScript("""
         (async () => {
             try { \(js) }

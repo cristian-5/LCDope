@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4079341A2D1B1218002FCAB1 /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = 407934192D1B1218002FCAB1 /* CodeEditorView */; };
+		4079341E2D1B1475002FCAB1 /* LanguageSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4079341D2D1B1475002FCAB1 /* LanguageSupport */; };
 		40AA7FF42D0AF616005DA434 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40AA7FF32D0AF616005DA434 /* WidgetKit.framework */; };
 		40AA7FF62D0AF616005DA434 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40AA7FF52D0AF616005DA434 /* SwiftUI.framework */; };
 		40AA80042D0AF618005DA434 /* DisplayExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 40AA7FF12D0AF616005DA434 /* DisplayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		40AD2A0A2CE650BD00A2C817 /* SwiftyMonaco in Frameworks */ = {isa = PBXBuildFile; productRef = 40AD2A092CE650BD00A2C817 /* SwiftyMonaco */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,7 +108,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40AD2A0A2CE650BD00A2C817 /* SwiftyMonaco in Frameworks */,
+				4079341E2D1B1475002FCAB1 /* LanguageSupport in Frameworks */,
+				4079341A2D1B1218002FCAB1 /* CodeEditorView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +188,8 @@
 			);
 			name = LCDope;
 			packageProductDependencies = (
-				40AD2A092CE650BD00A2C817 /* SwiftyMonaco */,
+				407934192D1B1218002FCAB1 /* CodeEditorView */,
+				4079341D2D1B1475002FCAB1 /* LanguageSupport */,
 			);
 			productName = LCDope;
 			productReference = 40AD29F22CE64F2900A2C817 /* LCDope.app */;
@@ -220,7 +223,7 @@
 			mainGroup = 40AD29E92CE64F2900A2C817;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				40AD2A082CE650BD00A2C817 /* XCRemoteSwiftPackageReference "SwiftyMonaco" */,
+				407934182D1B1218002FCAB1 /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 40AD29F32CE64F2900A2C817 /* Products */;
@@ -549,21 +552,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		40AD2A082CE650BD00A2C817 /* XCRemoteSwiftPackageReference "SwiftyMonaco" */ = {
+		407934182D1B1218002FCAB1 /* XCRemoteSwiftPackageReference "CodeEditorView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ICToolkit/SwiftyMonaco";
+			repositoryURL = "https://github.com/mchakravarty/CodeEditorView";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		40AD2A092CE650BD00A2C817 /* SwiftyMonaco */ = {
+		407934192D1B1218002FCAB1 /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 40AD2A082CE650BD00A2C817 /* XCRemoteSwiftPackageReference "SwiftyMonaco" */;
-			productName = SwiftyMonaco;
+			package = 407934182D1B1218002FCAB1 /* XCRemoteSwiftPackageReference "CodeEditorView" */;
+			productName = CodeEditorView;
+		};
+		4079341D2D1B1475002FCAB1 /* LanguageSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 407934182D1B1218002FCAB1 /* XCRemoteSwiftPackageReference "CodeEditorView" */;
+			productName = LanguageSupport;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

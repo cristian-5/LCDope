@@ -1,13 +1,22 @@
 {
-  "originHash" : "802ef0f033f0ef058d528ffc4ab76cfac3954b1ab499dcffd3e885b69d2ee823",
+  "originHash" : "3675a8b363ad866505239c8e2c7f6a0862ed02618f2dca478b2519372fb79c0c",
   "pins" : [
     {
-      "identity" : "swiftymonaco",
+      "identity" : "codeeditorview",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ICToolkit/SwiftyMonaco",
+      "location" : "https://github.com/mchakravarty/CodeEditorView",
       "state" : {
-        "branch" : "main",
-        "revision" : "9ea13943ff032238c8c85508f36c53a3b1555f49"
+        "revision" : "3d2f385aa1583828cdb8e454aea8f1163df23be8",
+        "version" : "0.14.0"
+      }
+    },
+    {
+      "identity" : "rearrange",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Rearrange.git",
+      "state" : {
+        "revision" : "5ff7f3363f7a08f77e0d761e38e6add31c2136e1",
+        "version" : "1.8.1"
       }
     }
   ],

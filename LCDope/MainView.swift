@@ -1,25 +1,61 @@
 
 import SwiftUI
-import SwiftyMonaco
+import CodeEditorView
+import LanguageSupport
+
+let jsConfiguration = LanguageConfiguration(
+	name: "javascript",
+	supportsSquareBrackets: true,
+	supportsCurlyBrackets: true,
+	stringRegex: try! Regex("'(?:\\.|(?!').)*?'|\"(?:\\.|(?!\").)*?\"|`(?:\\.|(?!`).)*?`"),
+	characterRegex: try! Regex("/(?:\\.|(?!/).)*?/[gimsuy]*"),
+	numberRegex: try! Regex("0(?:b[01]+|0[0-7]+|d?\\d+|x[0-9A-F]+)?|\\d+(?:\\.\\d+|[Ee][+-]\\d+)?"),
+	singleLineComment: "//",
+	nestedComment: (open: "/*", close: "*/"),
+	identifierRegex: try! Regex("[$A-Za-z](?:\\w\\$)*"),
+	operatorRegex: try! Regex("[+\\-*/%&|^!<>]=?|={1,3}|\\|\\||&&|<<|>>"),
+	reservedIdentifiers: [
+		"break", "case", "catch", "class", "continue", "const",
+		"constructor", "debugger", "default", "delete", "do", "else",
+		"export", "extends", "false", "finally", "for", "from", "function",
+		"get", "if", "import", "in", "instanceof", "let", "new", "null",
+		"return", "set", "super", "switch", "symbol", "this", "throw", "true",
+		"try", "typeof", "undefined", "var", "void", "while", "with", "yield",
+		"async", "await", "of"
+	],
+	reservedOperators: []
+)
+let jsLayout = CodeEditor.LayoutConfiguration(showMinimap: false, wrapText: true)
 
 struct MainView: View {
+	
+	@Environment(\.colorScheme) var colorScheme
+
     @Binding var document: LCDocument
 	@State private var debugPane = true
-	@State private var consolePane = true
+	@State private var consolePane = false
 
 	@State private var debugging = false
 	@State private var frame: Frame?
-	private static let syntax = Bundle.main.url(
-		forResource: "JSLanguage", withExtension: "js"
-	)!
+	
+	@State private var position: CodeEditor.Position       = CodeEditor.Position()
+	@State private var messages: Set<TextLocated<Message>> = Set()
+	
 	private let size = (w: 32, h: 32)
 	private let birthDay = Date.now.isCristianBirthDay
 	private let foundationDay = Date.now.isAppleFoudationDay
     var body: some View {
 		return VSplitView {
 			HSplitView {
-				SwiftyMonaco(text: $document.code).syntaxHighlight(SyntaxHighlight(title: "JavaScript", fileURL: MainView.syntax)).minimap(false)
-					.frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
+				CodeEditor(
+					text: $document.code,
+					position: $position,
+					messages: $messages,
+					language: jsConfiguration,
+					layout: jsLayout
+				)
+				.frame(minWidth: 550)
+				.environment(\.codeEditorTheme, colorScheme == .dark ? Theme.defaultDark : Theme.defaultLight)
 				if debugPane {
 					PixelCanvas(with: size)
 						.frame(minWidth: 220, maxWidth: .infinity, maxHeight: .infinity)
@@ -28,7 +64,6 @@ struct MainView: View {
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			if consolePane {
-				StatusBar().frame(maxWidth: .infinity)
 				Console().frame(maxWidth: .infinity, minHeight: 50)
 			}
 		} .toolbar {
@@ -43,6 +78,9 @@ struct MainView: View {
 			ToolbarItem(placement: .navigation) {
 				Button("Debug", systemImage: "play.fill") {
 					frame = driver(document.code, for: document.name, on: Date.now, with: size)
+					if frame != nil && frame?.logs.count ?? 0 > 0 {
+						consolePane = true
+					}
 				} .disabled(debugging).help("Run Widget")
 			}
 		}
@@ -75,27 +113,6 @@ struct MainView: View {
 		}
 	}
 	
-	private func StatusBar() -> some View {
-		HStack(alignment: .top, spacing: 8) {
-			Button("Clear", systemImage: "trash") {
-				frame!.logs.removeAll()
-			}
-			.disabled(frame == nil || frame!.logs.isEmpty)
-			.labelStyle(.iconOnly)
-			.buttonStyle(.borderless)
-			Divider().frame(height: 12).padding(2)
-			Spacer()
-			Button("Logs Pane", systemImage: "inset.filled.bottomthird.square") {
-				consolePane.toggle()
-			}
-			.labelStyle(.iconOnly)
-			.buttonStyle(.borderless)
-		}
-		.padding(.horizontal, 12)
-		.padding(.vertical, 6)
-		.background(.splitter)
-	}
-	
 	private func Console() -> some View {
 		ScrollView {
 			VStack(spacing: 0) {
@@ -124,21 +141,13 @@ struct MainView: View {
 	private func StripedBackground() -> some View {
 		if foundationDay {
 			Stripes(colors: [
-				.Apple.logo0,
-				.Apple.logo1,
-				.Apple.logo2,
-				.Apple.logo3,
-				.Apple.logo4,
-				.Apple.logo5
+				.Apple.logo0, .Apple.logo1, .Apple.logo2,
+				.Apple.logo3, .Apple.logo4, .Apple.logo5
 			], thickness: 20, degrees: 90)
 		} else if birthDay {
 			Stripes(colors: [
-				.Rainbow.red,
-				.Rainbow.orange,
-				.Rainbow.yellow,
-				.Rainbow.green,
-				.Rainbow.blue,
-				.Rainbow.indigo
+				.Rainbow.red, .Rainbow.orange, .Rainbow.yellow,
+				.Rainbow.green, .Rainbow.blue, .Rainbow.indigo
 			], thickness: 20, degrees: 45)
 		} else {
 			Stripes(
