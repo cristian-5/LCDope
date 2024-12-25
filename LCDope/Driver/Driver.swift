@@ -18,6 +18,7 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
 	var lcd = Matrix(m: size.w, n: size.h, UInt32(0))
 	var touched = Matrix(m: size.w, n: size.h, false)
 	let context = JSContext()! // ostrich algorithm
+	context.setObject(date,   for: "__DATE")
 	JSBridge.provide(to: context)
 	var backlight: UInt32 = 0x000000
 	let _back: @convention(block) (JSValue) -> Void = { c in backlight = c.toColor() }
@@ -40,7 +41,6 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
 	context.setObject(_clear, for: "__lcd_clear")
 	context.setObject(size.w, for: "__LCD_WIDTH")
 	context.setObject(size.h, for: "__LCD_HEIGHT")
-	context.setObject(date,   for: "__DATE")
 	context.evaluateScript("""
         (async () => {
             try { \(js) }
