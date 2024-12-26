@@ -14,6 +14,43 @@ Date.prototype.format = function(format) {
 
 Date.current = __DATE;
 
+class Navigator {
+
+	constructor() {
+		this._languages = __navigator_languages();
+		this.geolocation = {
+			getCurrentPosition: (success, error, _options) => {
+				const location = __navigator_location();
+				if (!location || location.length !== 2) {
+					if (error !== undefined) error({ message: "Location not available" });
+					else return null;
+				}
+				const result = {
+					coords: {
+						latitude: location[0],
+						longitude: location[1],
+						altitude: null,
+						accuracy: 1,
+						altitudeAccuracy: null,
+						heading: null,
+						speed: null
+					},
+					timestamp: Date.current
+				};
+				return success !== undefined ? success(result) : result;
+			}
+		};
+	}
+
+	// keep it exactly like this because the JSContext is flawed:
+	get onLine() { return (JSON.stringify(__navigator_online()) || "false") == "true"; }
+	get language() { return this._languages[0]; }
+	get languages() { return this._languages; }
+
+}
+
+const navigator = new Navigator();
+
 class Response {
 	
 	static statusTexts = {

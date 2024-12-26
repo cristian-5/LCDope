@@ -42,6 +42,7 @@ function display.character(c: string, x: number, y: number, color: number | stri
 - You may use `btoa()` and `atob()` to encode and decode base64 strings.
 - Some js features like timers and intervals are not available due to macOS widget restrictions.
 - You may store persisting user data using `localStorage`.
+- You may use `.onLine`, `.language`, `.languages`, `.geolocation` properties of `navigator`.
 
 ### Examples
 
@@ -62,4 +63,19 @@ display.print(`${M}${DATE.getDate()}`, 1, 3, "#ff0040");
 display.print(DATE.format("HH\nmm"), 10, 13, "#ffff00");
 
 console.log(Date.current);
+```
+
+#### Geolocation
+
+The [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation)
+can also be called with no arguments to return the location object instead of using
+the builtin callback parameters.
+
+```js
+display.backlight("#530010");
+
+const position = navigator.geolocation.getCurrentPosition();
+
+if (position === null) display.print("none");
+else display.print(`${position.coords.latitude}`);
 ```

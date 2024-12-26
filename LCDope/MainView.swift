@@ -1,5 +1,6 @@
 
 import SwiftUI
+import CoreLocation
 import CodeEditorView
 import LanguageSupport
 
@@ -7,13 +8,13 @@ let jsConfiguration = LanguageConfiguration(
 	name: "javascript",
 	supportsSquareBrackets: true,
 	supportsCurlyBrackets: true,
-	stringRegex: try! Regex("'(?:\\.|(?!').)*?'|\"(?:\\.|(?!\").)*?\"|`(?:\\.|(?!`).)*?`"),
-	characterRegex: try! Regex("/(?:\\.|(?!/).)*?/[gimsuy]*"),
-	numberRegex: try! Regex("0(?:b[01]+|0[0-7]+|d?\\d+|x[0-9A-F]+)?|\\d+(?:\\.\\d+|[Ee][+-]\\d+)?"),
+	stringRegex: try! Regex("'(?:(?!').)*?'|\"(?:(?!\").)*?\"|/(?:(?!/).)*?/[gimsuy]*"),
+	characterRegex: try! Regex("`(?:(?!`).)*?`"),
+	numberRegex: try! Regex("0x[0-9A-Fa-f]+|\\d+(?:\\.\\d+|[Ee][+-]\\d+)?"),
 	singleLineComment: "//",
 	nestedComment: (open: "/*", close: "*/"),
-	identifierRegex: try! Regex("[$A-Za-z](?:\\w\\$)*"),
-	operatorRegex: try! Regex("[+\\-*/%&|^!<>]=?|={1,3}|\\|\\||&&|<<|>>"),
+	identifierRegex: try! Regex("[$A-Za-z_][$0-9A-Za-z_]*"),
+	operatorRegex: try! Regex("[+\\-*/%&|^!<>=]+"),
 	reservedIdentifiers: [
 		"break", "case", "catch", "class", "continue", "const",
 		"constructor", "debugger", "default", "delete", "do", "else",
@@ -26,6 +27,52 @@ let jsConfiguration = LanguageConfiguration(
 	reservedOperators: []
 )
 let jsLayout = CodeEditor.LayoutConfiguration(showMinimap: false, wrapText: true)
+
+let lightTheme = Theme(
+	colourScheme: .light,
+	fontName: "SFMono-Medium",
+	fontSize: 14.0,
+	textColour: OSColor.black,
+	commentColour: OSColor(red: 0.365, green: 0.422, blue: 0.475, alpha: 1.0),
+	stringColour: OSColor(red: 0.77, green: 0.10, blue: 0.086, alpha: 1.0),
+	characterColour: OSColor(red: 0.77, green: 0.10, blue: 0.086, alpha: 1.0),
+	numberColour: OSColor(red: 0.11, green: 0, blue: 0.81, alpha: 1.0),
+	identifierColour: OSColor(red: 0.194, green: 0.429, blue: 0.455, alpha: 1.0),
+	operatorColour: OSColor.black,
+	keywordColour: OSColor(red: 0.608, green: 0.138, blue: 0.576, alpha: 1.0),
+	symbolColour: OSColor.black,
+	typeColour: OSColor.black,
+	fieldColour: OSColor.black,
+	caseColour: OSColor.black,
+	backgroundColour: OSColor.white,
+	currentLineColour: OSColor(red: 0.933, green: 0.961, blue: 0.966, alpha: 1.0),
+	selectionColour: OSColor(red: 0.725, green: 0.839, blue: 0.984, alpha: 1.0),
+	cursorColour: OSColor(red: 0.041, green: 0.375, blue: 0.998, alpha: 1.0),
+	invisiblesColour: OSColor.black
+)
+
+let darkTheme = Theme(
+	colourScheme: .dark,
+	fontName: "SFMono-Medium",
+	fontSize: 14.0,
+	textColour: OSColor(red: 1, green: 1, blue: 1, alpha: 0.85),
+	commentColour: OSColor(red: 0.424, green: 0.475, blue: 0.525, alpha: 1.0),
+	stringColour: OSColor(red: 0.989, green: 0.416, blue: 0.366, alpha: 1.0),
+	characterColour: OSColor(red: 0.989, green: 0.416, blue: 0.366, alpha: 1.0),
+	numberColour: OSColor(red: 0.815, green: 0.749, blue: 0.412, alpha: 1.0),
+	identifierColour: OSColor(red: 0.404, green: 0.718, blue: 0.643, alpha: 1.0),
+	operatorColour: OSColor(red: 1, green: 1, blue: 1, alpha: 0.85),
+	keywordColour: OSColor(red: 0.988, green: 0.374, blue: 0.638, alpha: 1.0),
+	symbolColour: OSColor.black,
+	typeColour: OSColor.black,
+	fieldColour: OSColor.black,
+	caseColour: OSColor.black,
+	backgroundColour: OSColor(red: 0.121, green: 0.123, blue: 0.141, alpha: 1.0),
+	currentLineColour: OSColor(red: 0.139, green: 0.147, blue: 0.169, alpha: 1.0),
+	selectionColour: OSColor(red: 0.318, green: 0.357, blue: 0.439, alpha: 1.0),
+	cursorColour: OSColor(red: 0.041, green: 0.375, blue: 0.998, alpha: 1.0),
+	invisiblesColour: OSColor.black
+)
 
 struct MainView: View {
 	
@@ -55,7 +102,7 @@ struct MainView: View {
 					layout: jsLayout
 				)
 				.frame(minWidth: 550)
-				.environment(\.codeEditorTheme, colorScheme == .dark ? Theme.defaultDark : Theme.defaultLight)
+				.environment(\.codeEditorTheme, colorScheme == .dark ? darkTheme : lightTheme)
 				if debugPane {
 					PixelCanvas(with: size)
 						.frame(minWidth: 220, maxWidth: .infinity, maxHeight: .infinity)
@@ -78,9 +125,7 @@ struct MainView: View {
 			ToolbarItem(placement: .navigation) {
 				Button("Debug", systemImage: "play.fill") {
 					frame = driver(document.code, for: document.name, on: Date.now, with: size)
-					if frame != nil && frame?.logs.count ?? 0 > 0 {
-						consolePane = true
-					}
+					if frame != nil { consolePane = (frame?.logs.count ?? 0) > 0 }
 				} .disabled(debugging).help("Run Widget")
 			}
 		}

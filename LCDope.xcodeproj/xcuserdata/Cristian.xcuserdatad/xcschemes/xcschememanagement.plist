@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>CodeEditor (Playground).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>DisplayExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,6 +22,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>40AA7FF02D0AF616005DA434</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>40AD29F12CE64F2900A2C817</key>
 		<dict>
 			<key>primary</key>

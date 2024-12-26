@@ -50,7 +50,7 @@ struct DisplayEntryView : View {
 		let file = entry.configuration.file()
 		let frame: Frame? = file == nil ? nil : driver(
 			file!, for: entry.configuration.driver?.fileURL?.absoluteString ?? "unknown",
-			on: Date.now, with: size
+			on: Date.now, with: size, in: entry.configuration.coords()
 		)
 		let data = frame == nil ? PlaceHolder(for: size).data : frame!.data
 		let back: Color = frame == nil ? .black : Color(rgb: frame!.back)

@@ -1,6 +1,7 @@
 
 import WidgetKit
 import AppIntents
+import CoreLocation
 
 struct DisplayIntent: WidgetConfigurationIntent {
 	static var title: LocalizedStringResource { "Configuration" }
@@ -8,6 +9,9 @@ struct DisplayIntent: WidgetConfigurationIntent {
 	
 	@Parameter(title: "Interval", defaultValue: 5, defaultUnit: .minutes, supportsNegativeNumbers: false)
 	var interval: Measurement<UnitDuration>
+	
+	@Parameter(title: "Location")
+	var location: CLPlacemark?
 	
 	@Parameter(title: "JS Driver", supportedContentTypes: [ .javaScript ])
 	var driver: IntentFile?
@@ -20,6 +24,13 @@ struct DisplayIntent: WidgetConfigurationIntent {
 			driver!.fileURL!.stopAccessingSecurityScopedResource()
 			return String(data: data, encoding: .utf8)
 		} catch { return nil }
+	}
+	
+	func coords() -> [Double] {
+		if location != nil, let place = location!.location {
+			return [ place.coordinate.latitude, place.coordinate.longitude ]
+		}
+		return []
 	}
 	
 }

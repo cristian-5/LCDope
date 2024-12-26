@@ -1,6 +1,8 @@
 
 
 import AppKit
+import Network
+import CoreLocation
 import JavaScriptCore
 
 struct Frame {
@@ -11,14 +13,33 @@ struct Frame {
 #endif
 }
 
-func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h: Int)) -> Frame {
+func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h: Int), in place: [Double] = []) -> Frame {
 #if TARGET_LOGS
 	Logger.clear() // clear old logs before new stuff
 #endif
 	var lcd = Matrix(m: size.w, n: size.h, UInt32(0))
 	var touched = Matrix(m: size.w, n: size.h, false)
 	let context = JSContext()! // ostrich algorithm
-	context.setObject(date,   for: "__DATE")
+	context.setObject(date, for: "__DATE")
+	let _loc:  @convention(block) () -> [Double] = { return place }
+	let _lang: @convention(block) () -> [String] = { return Locale.preferredLanguages }
+	let _online: @convention(block) () -> Bool = {
+		let monitor = NWPathMonitor()
+		let queue = DispatchQueue.global(qos: .userInteractive)
+		let semaphore = DispatchSemaphore(value: 0)
+		var isOnline = false
+		monitor.pathUpdateHandler = { path in
+			isOnline = (path.status == .satisfied)
+			semaphore.signal() // Release the semaphore when the result is ready
+		}
+		monitor.start(queue: queue)
+		semaphore.wait() // Wait for the network status to be determined
+		monitor.cancel() // Stop monitoring to clean up resources
+		return isOnline
+	}
+	context.setObject(_loc,    for: "__navigator_location")
+	context.setObject(_lang,   for: "__navigator_languages")
+	context.setObject(_online, for: "__navigator_online")
 	JSBridge.provide(to: context)
 	var backlight: UInt32 = 0x000000
 	let _back: @convention(block) (JSValue) -> Void = { c in backlight = c.toColor() }
