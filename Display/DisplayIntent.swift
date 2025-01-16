@@ -15,6 +15,10 @@ struct DisplayIntent: WidgetConfigurationIntent {
 	
 	@Parameter(title: "JS Driver", supportedContentTypes: [ .javaScript ])
 	var driver: IntentFile?
+	
+	@Parameter(title: "Grid", default: false)
+	var grid: Bool
+	
 	var type: String? { driver?.fileURL?.pathExtension }
 	func file() -> String? {
 		if driver == nil || driver!.fileURL == nil { return nil }

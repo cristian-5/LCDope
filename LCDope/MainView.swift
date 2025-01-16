@@ -1,6 +1,5 @@
 
 import SwiftUI
-import CoreLocation
 import CodeEditorView
 import LanguageSupport
 
@@ -75,23 +74,25 @@ let darkTheme = Theme(
 )
 
 struct MainView: View {
-	
+
+	@StateObject var menu: ObservableMenu
 	@Environment(\.colorScheme) var colorScheme
 
     @Binding var document: LCDocument
-	@State private var debugPane = true
-	@State private var consolePane = false
 
-	@State private var debugging = false
 	@State private var frame: Frame?
 	
 	@State private var position: CodeEditor.Position       = CodeEditor.Position()
 	@State private var messages: Set<TextLocated<Message>> = Set()
-	
-	private let size = (w: 32, h: 32)
+
 	private let birthDay = Date.now.isCristianBirthDay
 	private let foundationDay = Date.now.isAppleFoudationDay
     var body: some View {
+		let size = [
+			DebugWidgetFamily.small : (w:  40, h:  40),
+			DebugWidgetFamily.medium: (w: 100, h:  40),
+			DebugWidgetFamily.large : (w: 100, h: 100),
+		][menu.family] ?? (w: 0, h: 0)
 		return VSplitView {
 			HSplitView {
 				CodeEditor(
@@ -103,41 +104,64 @@ struct MainView: View {
 				)
 				.frame(minWidth: 550)
 				.environment(\.codeEditorTheme, colorScheme == .dark ? darkTheme : lightTheme)
-				if debugPane {
+				if menu.canvas {
 					PixelCanvas(with: size)
-						.frame(minWidth: 220, maxWidth: .infinity, maxHeight: .infinity)
+						.frame(minWidth: 420, maxWidth: .infinity, minHeight: 420, maxHeight: .infinity)
 						.background(StripedBackground())
 				}
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
-			if consolePane {
+			if menu.console {
 				Console().frame(maxWidth: .infinity, minHeight: 50)
 			}
 		} .toolbar {
 			ToolbarItem(placement: .automatic) {
-				Toggle("Console Pane", systemImage: "inset.filled.bottomhalf.rectangle", isOn: $consolePane)
+				Toggle("Console Pane", systemImage: "inset.filled.bottomhalf.rectangle", isOn: $menu.console)
 					.help("Hide / Show Console Pane")
 			}
 			ToolbarItem(placement: .automatic) {
-				Toggle("Debug Pane", systemImage: "sidebar.squares.trailing", isOn: $debugPane)
+				Toggle("Debug Pane", systemImage: "sidebar.squares.trailing", isOn: $menu.canvas)
 					.help("Hide / Show Debug Pane")
 			}
 			ToolbarItem(placement: .navigation) {
 				Button("Debug", systemImage: "play.fill") {
-					frame = driver(document.code, for: document.name, on: Date.now, with: size)
-					if frame != nil { consolePane = (frame?.logs.count ?? 0) > 0 }
-				} .disabled(debugging).help("Run Widget")
+					run(with: size)
+				} .help("Run Widget")
+			}
+		} .onAppear {
+			menu.isMainViewActive = true
+		} .onDisappear {
+			menu.isMainViewActive = false
+		} .onChange(of: menu.runAction) {
+			if menu.runAction {
+				run(with: size)
+				menu.runAction = false
 			}
 		}
 	}
 	
+	private func run(with size: (w: Int, h: Int)) {
+		frame = driver(document.code, for: document.name, on: Date.now, with: size)
+		if frame != nil {
+			menu.canvas = true
+			menu.console = (frame?.logs.count ?? 0) > 0
+		}
+	}
+	
 	private func PixelCanvas(with size: (w: Int, h: Int)) -> some View {
-		let pixel = 3, space = 1, box = pixel + space
+		let space = menu.grid ? 1 : 0, pixel = menu.grid ? 2 : 3, box = pixel + space
 		let padding = (x: 40, y: 40)
 		let fw = CGFloat(size.w * box + space)
 		let fh = CGFloat(size.h * box + space)
-		let data = frame == nil ? PlaceHolder(for: size).data : frame!.data
-		let back: Color = frame == nil ? .black : Color(rgb: frame!.back)
+		let data: [[UInt32]]
+		let back: Color
+		if frame != nil && frame!.data.count * frame!.data[0].count != size.w * size.h {
+			data = PlaceHolder(for: size).data
+			back = .black
+		} else {
+			data = frame == nil ? PlaceHolder(for: size).data : frame!.data
+			back = frame == nil ? .black : Color(rgb: frame!.back)
+		}
 		return ZStack {
 			RoundedRectangle(cornerRadius: 20).fill(back).frame(
 				width: fw + CGFloat(padding.x), height: fh + CGFloat(padding.y)
@@ -205,5 +229,6 @@ struct MainView: View {
 }
 
 #Preview {
-	MainView(document: .constant(LCDocument()))
+	@Previewable @StateObject var menu = ObservableMenu()
+	MainView(menu: menu, document: .constant(LCDocument()))
 }

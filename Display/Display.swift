@@ -38,13 +38,13 @@ struct DisplayEntryView : View {
 	var entry: Provider.Entry
 	@State var frameCount = 0
 	var body: some View {
-		let size = [
-			.systemSmall : (w: 32, h: 32),
-			.systemMedium: (w: 60, h: 24),
-			.systemLarge : (w: 60, h: 60),
-		][entry.family] ?? (w: 32, h: 32)
-		let pixel = entry.family == .systemSmall ? 3 : 4
-		let space = 1, box = pixel + space
+		let size = [ // ^ grid | no grid v
+			.systemSmall : (w:  40, h:  40),
+			.systemMedium: (w: 100, h:  40),
+			.systemLarge : (w: 100, h: 100),
+		][entry.family] ?? (w: 0, h: 0)
+		let space = entry.configuration.grid ? 1 : 0
+		let pixel = entry.configuration.grid ? 2 : 3, box = pixel + space
 		let fw = CGFloat(size.w * box + space)
 		let fh = CGFloat(size.h * box + space)
 		let file = entry.configuration.file()
