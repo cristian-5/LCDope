@@ -2,7 +2,8 @@
 # LCDope
 
 LCD Display Widget for macOS that runs **your** JavaScript code.\
-You can choose between `32x32`, `60x24` or `60x60` pixels (_still in development_).
+You can choose between `40x40`, `100x40` or `100x60` pixels.\
+The LCD Grid that separates pixels can be turned on or off.
 
 ![screen-1](screen-1.png)
 
