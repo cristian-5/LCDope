@@ -242,7 +242,7 @@ class Display {
 		"E22222E", "0G84210", "E88888E", "04AH000", "000000E", "4800000",
 		// a-z
 		"00CGYJW", "222EJJE", "00CJ2JC", "GGGWJJW", "00CJY2W",
-		"0C2E221", "00CJWGE", "222EJJJ", "0404444", "0808884",
+		"0C2E222", "00CJWGE", "222EJJJ", "0404444", "0808884",
 		"2JA6AJJ", "4444448", "00FNNNN", "00WJJJJ", "00CJJJC",
 		"00CJE22", "00CJWGG", "00T6222", "00W2CGE", "044Y44R",
 		"00JJJJW", "00HHHA4", "00HHHNA", "00JJCJJ", "00JJWGC", "00YGC2Y",
@@ -319,22 +319,8 @@ function rgb(r, g, b) {
 	return (r << 16) | (g << 8) | b;
 }
 
-function hsl(h, s, l) {
-	h = Math.min(1, Math.max(0, h)) * 360; // H from 0 to 360
-	s = Math.min(1, Math.max(0, s));       // S from 0 to 1
-	l = Math.min(1, Math.max(0, l));       // L from 0 to 1
-	let c = (1 - Math.abs(2 * l - 1)) * s;
-	let x = c * (1 - Math.abs((h / 60) % 2 - 1));
-	let m = l - c / 2;
-	let r, g, b;
-	if (h >= 0 && h < 60)         { r = c; g = x; b = 0; }
-	else if (h >=  60 && h < 120) { r = x; g = c; b = 0; }
-	else if (h >= 120 && h < 180) { r = 0; g = c; b = x; }
-	else if (h >= 180 && h < 240) { r = 0; g = x; b = c; }
-	else if (h >= 240 && h < 300) { r = x; g = 0; b = c; }
-	else { r = c; g = 0; b = x; }
-	r = Math.floor((r + m) * 255);
-	g = Math.floor((g + m) * 255);
-	b = Math.floor((b + m) * 255);
-	return rgb(r, g, b);
+function hsl(h, s, l) { // h in [0, 360]; s, l in [0, 1] -> [0, 255]
+	const k = n => (n + (h / 30)) % 12, a = s * Math.min(l, 1 - l);
+	const f = kn => l - a * Math.max(-1, Math.min(kn - 3, 9 - kn, 1));
+	return [0, 8, 4].map(n => Math.round(255 * f(k(n))));
 }

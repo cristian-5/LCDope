@@ -6,12 +6,15 @@ struct LCDopeApp: App {
 	@StateObject var menu = ObservableMenu()
     var body: some Scene {
         DocumentGroup(newDocument: LCDocument()) { file in
-			MainView(menu: menu, document: file.$document).onAppear {
-				if let window = NSApplication.shared.windows.first {
-					window.center()
+			MainView(menu: menu, document: file.$document)
+				.frame(minWidth: 550, maxWidth: 700, minHeight: 550, maxHeight: 700)
+				.onAppear {
+					if let window = NSApplication.shared.windows.first {
+						window.center()
+					}
 				}
-			}
-		} .commands {
+				.windowFullScreenBehavior(.disabled)
+		} .windowResizability(.contentSize) .commands {
 			DebugCommands(menu: menu)
 		}
     }
@@ -22,8 +25,10 @@ enum DebugWidgetFamily {
 }
 class ObservableMenu: ObservableObject {
 	@Published var family: DebugWidgetFamily = .small
+	@Published var date: Date = Date()
+	@Published var latitude: Double = 0.0
+	@Published var longitude: Double = 0.0
 	@Published var grid: Bool = true
-	@Published var canvas: Bool = true
 	@Published var console: Bool = false // only concealable in menu
 	@Published var runAction: Bool = false
 	@Published var isMainViewActive: Bool = false
@@ -33,8 +38,6 @@ struct DebugCommands: Commands {
 	@StateObject var menu: ObservableMenu
 	var body: some Commands {
 		CommandGroup(after: .sidebar) {
-			Toggle("Canvas", isOn: $menu.canvas)
-				.keyboardShortcut("\n", modifiers: [.option, .command])
 			Button("Hide Console") {
 				menu.console = false
 			}

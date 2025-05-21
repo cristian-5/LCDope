@@ -10,8 +10,6 @@
 		40AA7FF42D0AF616005DA434 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40AA7FF32D0AF616005DA434 /* WidgetKit.framework */; };
 		40AA7FF62D0AF616005DA434 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40AA7FF52D0AF616005DA434 /* SwiftUI.framework */; };
 		40AA80042D0AF618005DA434 /* DisplayExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 40AA7FF12D0AF616005DA434 /* DisplayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		40E7E6E22D1DA259009232B0 /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = 40E7E6E12D1DA259009232B0 /* CodeEditorView */; };
-		40E7E6E42D1DA259009232B0 /* LanguageSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 40E7E6E32D1DA259009232B0 /* LanguageSupport */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,8 +106,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40E7E6E42D1DA259009232B0 /* LanguageSupport in Frameworks */,
-				40E7E6E22D1DA259009232B0 /* CodeEditorView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,8 +184,6 @@
 			);
 			name = LCDope;
 			packageProductDependencies = (
-				40E7E6E12D1DA259009232B0 /* CodeEditorView */,
-				40E7E6E32D1DA259009232B0 /* LanguageSupport */,
 			);
 			productName = LCDope;
 			productReference = 40AD29F22CE64F2900A2C817 /* LCDope.app */;
@@ -223,7 +217,6 @@
 			mainGroup = 40AD29E92CE64F2900A2C817;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				40E7E6E02D1DA259009232B0 /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 40AD29F32CE64F2900A2C817 /* Products */;
@@ -550,30 +543,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		40E7E6E02D1DA259009232B0 /* XCRemoteSwiftPackageReference "CodeEditorView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mchakravarty/CodeEditorView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.14.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		40E7E6E12D1DA259009232B0 /* CodeEditorView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 40E7E6E02D1DA259009232B0 /* XCRemoteSwiftPackageReference "CodeEditorView" */;
-			productName = CodeEditorView;
-		};
-		40E7E6E32D1DA259009232B0 /* LanguageSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 40E7E6E02D1DA259009232B0 /* XCRemoteSwiftPackageReference "CodeEditorView" */;
-			productName = LanguageSupport;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 40AD29EA2CE64F2900A2C817 /* Project object */;
 }
