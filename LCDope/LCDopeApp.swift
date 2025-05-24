@@ -7,7 +7,7 @@ struct LCDopeApp: App {
     var body: some Scene {
         DocumentGroup(newDocument: LCDocument()) { file in
 			MainView(menu: menu, document: file.$document)
-				.frame(minWidth: 550, maxWidth: 700, minHeight: 550, maxHeight: 700)
+				.frame(width: 550, height: 550)
 				.onAppear {
 					if let window = NSApplication.shared.windows.first {
 						window.center()

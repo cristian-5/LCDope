@@ -304,12 +304,12 @@ class Display {
 
 const display = new Display();
 
-console.log    = (...M) =>   __log(M.map(m => `${m || "undefined"}`).join(' '));
-console.error  = (...M) => __error(M.map(m => `${m || "undefined"}`).join(' '));
-console.warn   = (...M) =>  __warn(M.map(m => `${m || "undefined"}`).join(' '));
-console.info   = (...M) =>  __info(M.map(m => `${m || "undefined"}`).join(' '));
-console.debug  = (...M) => __debug(M.map(m => `${m || "undefined"}`).join(' '));
-console.assert = (condition, ...M) => !condition && __error(M.map(m => `${m}`).join(' '));
+console.log    = (...M) =>   __log(M.map(m => JSON.stringify(m)).join(' '));
+console.error  = (...M) => __error(M.map(m => JSON.stringify(m)).join(' '));
+console.warn   = (...M) =>  __warn(M.map(m => JSON.stringify(m)).join(' '));
+console.info   = (...M) =>  __info(M.map(m => JSON.stringify(m)).join(' '));
+console.debug  = (...M) => __debug(M.map(m => JSON.stringify(m)).join(' '));
+console.assert = (condition, ...M) => !condition && __error(M.map(m => JSON.stringify(m)).join(' '));
 console.clear  = __clear;
 
 function rgb(r, g, b) {
