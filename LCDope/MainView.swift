@@ -132,11 +132,11 @@ struct MainView: View {
 		case .years: component = .year
 		default: component = .minute
 		}
-		var offset = 0, date = menu.date
+		var date = menu.date
 		task = Task {
 			while !Task.isCancelled {
 				try? await Task.sleep(nanoseconds: 1_000_000_000) // 1s
-				date = Calendar.current.date(byAdding: component, value: offset, to: date)!
+				date = Calendar.current.date(byAdding: component, value: 1, to: date)!
 				frame = driver(document.code, for: document.name, on: date, with: size, in: [ menu.latitude, menu.longitude ])
 				if frame == nil {
 					task?.cancel()
@@ -144,7 +144,6 @@ struct MainView: View {
 					return
 				}
 				menu.console = frame!.logs.count > 0
-				offset += 1
 			}
 		}
 	}
