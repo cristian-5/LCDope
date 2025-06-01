@@ -263,6 +263,7 @@ class Display {
 	get width() { return __LCD_WIDTH; }
 	get height() { return __LCD_HEIGHT; }
 	get size() { return [__LCD_WIDTH, __LCD_HEIGHT]; }
+	get ratio() { return __LCD_WIDTH / __LCD_HEIGHT; }
 	
 	_char_5x7(code, x, y, color) {
 		const B = Display._FONT_5x7[code - 32] || "";
@@ -319,8 +320,8 @@ function rgb(r, g, b) {
 	return (r << 16) | (g << 8) | b;
 }
 
-function hsl(h, s, l) { // h in [0, 360]; s, l in [0, 1] -> [0, 255]
+function hsl(h, s, l) { // h in [0, 360]; s, l in [0, 1] -> 0xFF00FF
 	const k = n => (n + (h / 30)) % 12, a = s * Math.min(l, 1 - l);
 	const f = kn => l - a * Math.max(-1, Math.min(kn - 3, 9 - kn, 1));
-	return [0, 8, 4].map(n => Math.round(255 * f(k(n))));
+	return rgb(...([0, 8, 4].map(n => Math.round(255 * f(k(n))))));
 }
