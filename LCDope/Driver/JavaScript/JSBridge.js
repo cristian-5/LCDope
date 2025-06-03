@@ -248,7 +248,7 @@ class Display {
 		"00JJJJW", "00HHHA4", "00HHHNA", "00JJCJJ", "00JJWGC", "00YGC2Y",
 		// { | } ~ ♥︎
 		"C22122C", "4444444", "688G886", "0002N80", "ZZZZZZZ", "0AZZE40"
-	];
+	].concat(new Array(47).fill("0000000")).concat(["4A40000"]); // °
 	static _FONT_W = 5;
 	static _FONT_H = 7;
 	
