@@ -118,12 +118,12 @@ class Response {
 		511: "Network Authentication Required"
 	};
 	
-	constructor(body, status, headers, url, redirected = false) {
+	constructor(body, status, headers = {}, url = "", redirected = false) {
 		this._body = body; // private `#` is not supported
 		this.status = status;
 		this.statusText = Response.statusTexts[status] || "";
 		this.ok = status >= 200 && status < 300;
-		this.headers = headers;
+		this.headers = new Headers(headers);
 		this.url = url;
 		this.redirected = redirected;
 		this.type = "basic";
@@ -157,7 +157,7 @@ class Response {
 	clone() {
 		// create a compatible deep-copy of the headers
 		// `structuredClone` does not exist in JSContext
-		const headers = JSON.parse(JSON.stringify(this.headers));
+		const headers = JSON.parse(JSON.stringify(this.headers._values));
 		return new Response(this._body, this.status, headers, this.url, this.redirected);
 	}
 	
@@ -257,7 +257,7 @@ class Display {
 		__lcd_backlight(color);
 	}
 	pixel(x, y, color = 0xFFFFFF) { __lcd_pixel(x, y, color); }
-	clear(x, y) { __lcd_clear(); }
+	clear() { __lcd_clear(); }
 	fill(color = 0xFFFFFF) { __lcd_fill(color); }
 	
 	get width() { return __LCD_WIDTH; }
@@ -311,7 +311,6 @@ console.warn   = (...M) =>  __warn(M.map(m => JSON.stringify(m)).join(' '));
 console.info   = (...M) =>  __info(M.map(m => JSON.stringify(m)).join(' '));
 console.debug  = (...M) => __debug(M.map(m => JSON.stringify(m)).join(' '));
 console.assert = (condition, ...M) => !condition && __error(M.map(m => JSON.stringify(m)).join(' '));
-console.clear  = __clear;
 
 function rgb(r, g, b) {
 	if (r % 1 !== 0) r = Math.floor(Math.min(1, Math.max(0, r)) * 255) & 0xFF;

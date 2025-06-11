@@ -62,12 +62,7 @@ func driver(_ js: String, for name: String, on date: Date, with size: (w: Int, h
 	context.setObject(_clear, for: "__lcd_clear")
 	context.setObject(size.w, for: "__LCD_WIDTH")
 	context.setObject(size.h, for: "__LCD_HEIGHT")
-	context.evaluateScript("""
-        (async () => {
-            try { \(js) }
-            catch (e) { console.error(e); }
-        })();
-    """) // allow top-level await
+	context.evaluateScript("(async () => { \(js) })();") // allow top-level await
 	JSStorage.storeLocalStorage(from: context, url: name)
 	for i in 0 ..< size.h {
 		for j in 0 ..< size.w {

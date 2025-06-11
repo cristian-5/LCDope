@@ -7,6 +7,9 @@ class JSBridge {
 	private static var bridgeClass = try! String(contentsOfFile: bridgePath!, encoding: .utf8)
 	
 	static func provide(to context: JSContext) {
+		context.exceptionHandler = { context, exception in
+			print("JS Exception:", exception?.toString() ?? "unknown")
+		}
 		context.evaluateScript(bridgeClass)
 		let __btoa: @convention(block) (String) -> String = { string in
 			string.data(using: .utf8)?.base64EncodedString() ?? ""
